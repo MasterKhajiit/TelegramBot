@@ -30,19 +30,19 @@ for post in reversed(rss.entries):
         with open('settings.ini', "w") as config_file:
             config.write(config_file)
 
-    print('---------------------------------')
-    print(data)
-
-    # Получаем заголовок поста
+    # Получаем заголовок поста и ссылку
     text = post.title
-    print(text)
-
-    # Получаем ссылку на пост
     link = post.links[0].href
-    print(link)
 
-    # Отправляем картинку и текстовое описание в Telegram
+    #лог для консоли
+    print(data)
+    print(text)
+    print(link)
+    print('---------------------------------')
+
+    # Отправляем сообщение в канал
     bot.send_message(CHANNEL, '<a href="' + link + '">' + text + '</a>', parse_mode='HTML')
 
+    #запись лога в файл
     with open('log.txt', "a") as log:
-        log.write(data+"\n"+text+"\n"+link)
+        log.write(data+"\n"+text+"\n"+link+"\n")
