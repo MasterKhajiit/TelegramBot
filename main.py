@@ -1,9 +1,7 @@
 import feedparser
-import datetime
 import telebot
 import configparser
-import urllib.request
-import urllib.error
+
 
 # Считываем настройки
 config = configparser.ConfigParser()
@@ -23,9 +21,7 @@ for post in reversed(rss.entries):
     data = post.published
     data_old = config.get('RSS', 'DATETIME')
 
-    print(data)
-    print(data_old)
-    # Пропускаем уже опубликованные посты
+# Пропускаем уже опубликованные посты
     if data <= data_old:
         continue
     else:
@@ -47,3 +43,6 @@ for post in reversed(rss.entries):
 
     # Отправляем картинку и текстовое описание в Telegram
     bot.send_message(CHANNEL, '<a href="' + link + '">' + text + '</a>', parse_mode='HTML')
+
+    with open('log.txt', "a") as log:
+        log.write(data+"\n"+text+"\n"+link)
